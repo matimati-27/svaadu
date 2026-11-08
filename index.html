@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kitchen Talk</title>
+<title>svaadu: Food Talk</title>
 <link rel="icon" href="media/mascot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -232,12 +232,12 @@
     cb.onchange=()=>{ go.disabled=!cb.checked; };
     go.onclick=async ()=>{
       go.disabled=true;
-      await popup({title:"Microphone check", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b> — we need it to record your answers."});
+      await popup({title:"Microphone check <br> ఆడియో పరిశీలన​", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b>, we need it to record your answers. <br> మీ ఫోన్ ఇప్పుడు ఆడియో రికార్డింగ్ చెయ్యడానికి అనుమతి అడుగుతుంది. <b>Allow</b> అనే బటన్ నొక్కండి."});
       try{
         const st = await navigator.mediaDevices.getUserMedia({audio:true});
         st.getTracks().forEach(t=>t.stop());
       }catch(e){
-        await popup({title:"Microphone blocked", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.)"});
+        await popup({title:"Microphone blocked <br> ఆడియో బ్లాక్ అయింది", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.) <br> మేము ఆడియో తీసుకోలేకపోయాము. దయచేసి మీ బ్రౌజర్ సెట్టింగ్‌లలో ఈ సైట్ కోసం మైక్రోఫోన్ యాక్సెస్‌ను అనుమతించి, ఆ తర్వాత ఈ పేజీని రీలోడ్ చేయండి. (ఐఫోన్‌లో అయితే, దయచేసి సఫారీని ఉపయోగించండి.)"});
         go.disabled=false; return;
       }
       if(!S.startSent){ post({kind:"start", rid:S.rid, lang, ua:navigator.userAgent}).then(()=>{S.startSent=true;save();}).catch(()=>{}); }
@@ -246,16 +246,16 @@
   }
 
   function video(){
-    const el = slide('<div class="kicker">Watch</div><h2>A short cooking video</h2>'+
+    const el = slide('<div class="kicker">Watch - చూడండి</div><h2> Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ</h2>'+
       '<video id="v" playsinline controls preload="metadata"></video>'+
-      '<p class="muted" id="vs">Watch till the end to continue.</p><div class="spacer"></div>'+
+      '<p class="muted" id="vs">Watch till the end to continue.- ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి.</p><div class="spacer"></div>'+
       '<div class="row"><button class="btn" id="go" disabled>Next</button></div>');
     const v=$("#v",el); v.src=C.video;
     v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent="Done! Tap Next."; S.videoDone=true; save(); };
     v.onerror=()=>{ $("#vs",el).textContent="The video didn't load. Check your connection and reload the page."; };
     if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent="You've watched it. Tap Next."; }
     $("#go",el).onclick=next;
-    popup({title:"Watch the video", text:"Tap ▶ and watch the whole video. There's no talking in it, only music — just watch what is being cooked."});
+    popup({title:"Watch the video <br> వీడియో చూడండి", text:"Tap ▶ and watch the whole video. There is no talking in it. Just watch what is being cooked. <br> ▶ నొక్కీ వీడియో చివరివరకూ చూడండి. ఈ వీడియోలో ఎవరూ మాటలాడరు. ఇందులో ఏమిటి వండుతున్నారో చూడండి."});
   }
 
   function question(i){
@@ -279,7 +279,7 @@
 
     function refreshListen(){
       const left = max - used;
-      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓"; }
+      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓ <br> వినబడింది ✓"; }
       else ls.textContent = max===1 ? "You can hear this once" : ("You can hear this "+left+" more time"+(left>1?"s":""));
     }
     function refreshMic(){
@@ -290,7 +290,7 @@
     if (S.done[q.id]) { st.className="status ok"; st.textContent="Your answer was sent ✓"; }
 
     if (!S.firstQSeen){
-      popup({title:"How this works", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. Listen carefully — you can hear it only "+(max===1?"once":max+" times")+".<br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud, the way you would at home. Tap it again when you're done."})
+      popup({title:"How this works <br> కొన్ని సూచనలు", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. You can hear it upto "+(max===1?"once":max+" times")+".<br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud, the way you would at home. Tap it again when you're done."})
         .then(()=>{ S.firstQSeen=true; save(); });
     }
 

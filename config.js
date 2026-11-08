@@ -47,20 +47,20 @@ window.STUDY_CONFIG = {
 
   // 5) Text on the first two slides (English; edit freely).
   intro: {
-    title: "Namaste! Let's talk food.",
-    body: "We are two students at IIIT Hyderabad studying home cooking and food habits in Indian households. " +
+    title: "Namaste! Let's talk food. // నమస్కారం! ఆహారం గురించి మాటలాడుకుందాం.",
+    body: "This is a study at IIIT Hyderabad about home cooking and food habits in Indian households. " +
           "This takes about 10–15 minutes. You will watch a short cooking video and then answer a few questions " +
-          "by speaking — just like a conversation. There are no right or wrong answers."
+          "by speaking — just like a conversation. There are no right or wrong answers." +
+          "ఇది లో ఆహరపద్ధతుల గురించీ జరుగుతున్న ఒక పరిశీలన​. ఈ సర్వేక్షణలో ఉన్న ప్రశ్నలన్నిటికీ జవాబు ఇవ్వడానికి 10-15 ని॥ పడతాయి.​"
   },
   consent: {
-    title: "Before we begin",
+    title: "Before we begin // మొదలపెట్టే ముందు కొన్ని సూచనలు",
     points: [
-      "Your spoken answers will be recorded and used only for our course project at IIIT Hyderabad.",
-      "Your name will not be asked or used. Recordings are stored privately with the researchers.",
-      "You may stop at any time by closing this page.",
-      "Please answer in a quiet place. Each question can be heard once and answered once — there is no re-recording."
+      "Your spoken answers will be recorded and used only for our course project at IIIT Hyderabad. // మీ సమాధానాలు ఈ ప్రాజెక్టు కోసమే వాడబడతాయి.",
+      "Your name will not be asked or used. Recordings are stored privately with the researchers. // మేము మీ పేరుని ఎక్కడా అడగము ఇంక వాడము.",
+      "You may stop at any time by closing this page. // మీరు మధ్యలో ఎప్పుడైనా ఈ పేజీని ముయ్యగలరు.",
+      "Please answer in a quiet place. Each question can be heard once and answered once — there is no re-recording. // ఒక ప్రశాంతమైన చోటులో సమాధానాలు ఇవ్వండి. మీరు సమాధానం ఒక్కసారె రికార్డ్ చెయ్యగలుగుతారు."
     ],
-    checkboxLabel: "I am 18 or older and I agree to take part.",
-    researchers: "Sai Sreemayee Sistla & Vinayak Sharma, IIIT Hyderabad"
+    checkboxLabel: "I am 18 or older and I agree to take part. // నా వయస్సు కనీసం. నేను ఈ సర్వేక్షణ లో పాల్గొంటాను.",
   }
 };

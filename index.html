@@ -232,12 +232,12 @@
     cb.onchange=()=>{ go.disabled=!cb.checked; };
     go.onclick=async ()=>{
       go.disabled=true;
-      await popup({title:"Microphone check <br> ఆడియో పరిశీలన​", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b>, we need it to record your answers. <br> మీ ఫోన్ ఇప్పుడు ఆడియో రికార్డింగ్ చెయ్యడానికి అనుమతి అడుగుతుంది. <b>Allow</b> అనే బటన్ నొక్కండి."});
+      await popup({title:"Microphone check // ఆడియో పరిశీలన​", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b>, we need it to record your answers. <br> మీ ఫోన్ ఇప్పుడు ఆడియో రికార్డింగ్ చెయ్యడానికి అనుమతి అడుగుతుంది. <b>Allow</b> అనే బటన్ నొక్కండి."});
       try{
         const st = await navigator.mediaDevices.getUserMedia({audio:true});
         st.getTracks().forEach(t=>t.stop());
       }catch(e){
-        await popup({title:"Microphone blocked <br> ఆడియో బ్లాక్ అయింది", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.) <br> మేము ఆడియో తీసుకోలేకపోయాము. దయచేసి మీ బ్రౌజర్ సెట్టింగ్‌లలో ఈ సైట్ కోసం మైక్రోఫోన్ యాక్సెస్‌ను అనుమతించి, ఆ తర్వాత ఈ పేజీని రీలోడ్ చేయండి. (ఐఫోన్‌లో అయితే, దయచేసి సఫారీని ఉపయోగించండి.)"});
+        await popup({title:"Microphone blocked // ఆడియో బ్లాక్ అయింది", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.) <br> మేము ఆడియో తీసుకోలేకపోయాము. దయచేసి మీ బ్రౌజర్ సెట్టింగ్‌లలో ఈ సైట్ కోసం మైక్రోఫోన్ యాక్సెస్‌ను అనుమతించి, ఆ తర్వాత ఈ పేజీని రీలోడ్ చేయండి. (ఐఫోన్‌లో అయితే, దయచేసి సఫారీని ఉపయోగించండి.)"});
         go.disabled=false; return;
       }
       if(!S.startSent){ post({kind:"start", rid:S.rid, lang, ua:navigator.userAgent}).then(()=>{S.startSent=true;save();}).catch(()=>{}); }
@@ -290,7 +290,7 @@
     if (S.done[q.id]) { st.className="status ok"; st.textContent="Your answer was sent ✓"; }
 
     if (!S.firstQSeen){
-      popup({title:"How this works <br> కొన్ని సూచనలు", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. You can hear it upto "+(max===1?"once":max+" times")+".<br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud, the way you would at home. Tap it again when you're done."})
+      popup({title:"How this works // కొన్ని సూచనలు", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. You can hear it upto "+(max===1?"once":max+" times")+" <br> ప్రశ్నను వినడానికి ఆకుపచ్చ రంగు స్పీకర్ 🔊 పై నొక్కండి. మీరు దీన్ని  "+(max===1?"ఒక్కసారి":max+" సార్లు")+" వినవచ్చు.<br><br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud. Tap it again when you're done. <br> ఎరుపు రంగు మైక్రోఫోన్ 🎙 గుర్తుపై నొక్కీ సమాధానం చెప్పండి. చెప్పడం పూర్తయ్యాక మళ్లీ దానిపై నొక్కండి."})
         .then(()=>{ S.firstQSeen=true; save(); });
     }
 
@@ -302,7 +302,7 @@
         used++; S.listens[q.id]=used; heard=true; save();
         listen.disabled = used>=max; refreshListen(); refreshMic();
       };
-      a.onerror=()=>{ listen.disabled=false; ls.textContent="Couldn't load the question. Check your internet and tap again."; };
+      a.onerror=()=>{ listen.disabled=false; ls.textContent="Couldn't load the question. Check your internet and tap again. // ప్రశ్న చూబించలేకపోయాము. మీ ఇంటర్నెట్ కనెక్షన్ చూసుకోండి."; };
       a.play().catch(()=>{ listen.disabled=false; ls.textContent="Tap again to play."; });
     };
 
@@ -316,9 +316,9 @@
 
     async function startRec(){
       const mime = pickMime();
-      if (mime===null){ await popup({title:"Recording not supported", text:"This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone)."}); return; }
+      if (mime===null){ await popup({title:"Recording not supported // రికార్డింగ్ చెయ్యడమవ్వదు", text:"This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone). <br> ఈ బ్రౌజర్ లో రికార్డింగ్ అవ్వదు. దయచేసి క్రోమ్ (Android) లో లెదా సఫారీ (iPhone) లో దీన్ని తెరవండి."}); return; }
       try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}); }
-      catch(e){ await popup({title:"Microphone blocked", text:"Please allow microphone access for this site, then tap the microphone again."}); return; }
+      catch(e){ await popup({title:"Microphone blocked // మైక్ బ్లాక్ అయింది", text:"Please allow microphone access for this site, then tap the microphone again. <br> మైక్ వాడటానికి అనుమతించండి. ఆ పై మళ్లా మైక్ బటన్ నొక్కండి."}); return; }
       chunks=[];
       try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime, audioBitsPerSecond:48000}) : new MediaRecorder(stream); }
       catch(e){ rec = new MediaRecorder(stream); }
@@ -326,15 +326,15 @@
       rec.onstop = onStopped;
       rec.start(1000);
       busy=true; t0=Date.now();
-      mic.classList.add("rec"); mic.innerHTML=ICON.stop; ms.textContent="Recording… tap to finish"; listen.disabled=true;
+      mic.classList.add("rec"); mic.innerHTML=ICON.stop; ms.textContent="Recording… tap to finish // రికార్డింగ్ జరుగుతున్నాది... పూర్తయ్యాకా ఆపడానికి నొక్కండి"; listen.disabled=true;
       timer.textContent="0:00";
       tick=setInterval(()=>{ timer.textContent=fmt((Date.now()-t0)/1000); },500);
       autoStop=setTimeout(()=>{ if(rec && rec.state==="recording") rec.stop(); }, (C.maxRecordSeconds||360)*1000);
     }
 
     async function askStop(){
-      const ok = await popup({title:"Finished answering?", text:"You can't record this answer again, so take your time if you have more to say.",
-        buttons:[{label:"Keep talking", value:false, ghost:true},{label:"Yes, I'm done", value:true}]});
+      const ok = await popup({title:"Finished answering? // మీరు జవాబు పూర్తిగా ఇచ్చారా?", text:"You can't record this answer again, so take your time if you have more to say. <br> జవాబును మళ్లా రికార్డు చెయ్యడమవ్వదు. అందుకే ఇంకా ఏమైనా చెప్తారంటే మీరు ఇప్పుడు వెనక్కి వెళ్లీ చెప్పగలరు." ,
+        buttons:[{label:"talk // చెప్పాలి", value:false, ghost:true},{label:"done // అయింది", value:true}]});
       if (ok && rec && rec.state==="recording") rec.stop();
     }
 
@@ -351,7 +351,7 @@
 
     async function send(){
       retry.style.display="none";
-      st.className="status"; st.innerHTML='Sending your answer<span class="bars"><i></i><i></i><i></i></span>';
+      st.className="status"; st.innerHTML='Sending your answer // మీ జవాబు చేరుతున్నాది <span class="bars"><i></i><i></i><i></i></span>';
       busy=true;
       try{
         const b64 = await blobToBase64(pendingBlob);
@@ -377,19 +377,18 @@
   }
 
   function details(){
-    const el = slide('<div class="kicker">Almost done</div><h2>A little about you</h2>'+
-      '<p class="muted">This helps us compare answers. No names, please.</p>'+
+    const el = slide('<div class="kicker">Almost done // చివరికి</div><h2>A little about you // మీ గురించి కొన్ని వివరాలు</h2>'+
+      '<p class="muted">This helps us study answers. No names, please. <br> ఇవి వేరే సమాధానాలను అర్ధం చేసుకోడంలో మాకు సహాయబడతాయి. మీ పేరు ఎక్కడా రాయకండి.</p>'+
       '<form class="details" id="f">'+
         '<label>Age<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
-        '<label>Gender<select name="gender" required><option value="">Choose…</option><option>Woman</option><option>Man</option><option>Other</option><option>Prefer not to say</option></select></label>'+
-        '<label>Mother tongue<input name="mother_tongue" required></label>'+
-        '<label>Other languages you speak<input name="other_languages" placeholder="e.g. Hindi, English"></label>'+
-        '<label>Where did you grow up? <span class="opt">(city / town, state)</span><input name="grew_up" required></label>'+
-        '<label>Where do you live now?<input name="lives_now" required></label>'+
-        '<label>Medium of your schooling<select name="school_medium" required><option value="">Choose…</option><option>English</option><option>Telugu</option><option>Hindi</option><option>Other</option></select></label>'+
-        '<label>How long have you been cooking regularly?<select name="cooking_years" required><option value="">Choose…</option><option>Less than 1 year</option><option>1–5 years</option><option>5–15 years</option><option>More than 15 years</option><option>I don\'t cook regularly</option></select></label>'+
+        '<label>Gender // లింగం<select name="gender" required><option value="">Choose…</option><option>Female // మహిళ​</option><option>Man // పురుషుడు</option></select></label>'+
+        '<label>Mother tongue // మాతృభాష​<input name="mother_tongue" required></label>'+
+        '<label>Other languages you understand? // మీరు యే వేరే భాషలు అర్ధమవుతాయి? <input name="other_languages"</label>'+
+        '<label>Where did you grow up? // మీరు ఎక్కడ పెరిగారు? <span class="opt">(city / town, state)</span><input name="grew_up" required></label>'+
+        '<label>Where do you live now? // ఇప్పుడు ఎక్కడ ఉంటున్నారు?<input name="lives_now" required></label>'+
+        '<label>Since how long have you been able to cook regularly? // ఎప్పటి నుంచీ మీరు వంట వండగలుగుతున్నారు? <select name="cooking_years" required><option value="">Choose…</option><option>Less than 1 year // ఒక ఏడాది లోపల​</option><option>1–5 years // కిందటి 1-5 ఏళ్ల​ లోపల​</option><option>5–15 years // కిందటి 5-15 ఏళ్ల​ లోపల​ </option><option>More than 15 years // కిందటి 15 ఏళ్ల పైన</option><option>I don\'t cook regularly // నాకు వండే అలవాటు లేదు</option></select></label>'+
         '<div class="status" id="st"></div>'+
-        '<div class="row"><button class="btn" id="go" type="submit">Submit</button></div>'+
+        '<div class="row"><button class="btn" id="go" type="submit">Submit // సమాధానాలు పంపించండి</button></div>'+
       '</form>');
     const f=$("#f",el), st=$("#st",el), go=$("#go",el);
     f.onsubmit=async e=>{
@@ -397,14 +396,14 @@
       const data = Object.fromEntries(new FormData(f).entries());
       go.disabled=true; st.className="status"; st.textContent="Sending…";
       try{ await post({kind:"details", rid:S.rid, lang, ...data}); S.finished=true; save(); next(); }
-      catch(err){ go.disabled=false; st.className="status err"; st.textContent="Couldn't send — check your internet and tap Submit again."; }
+      catch(err){ go.disabled=false; st.className="status err"; st.textContent="Couldn't send — check your internet and tap Submit again. // మీ కనెక్షన్ చూసుకునీ మళ్లా పంపించడానికి ప్రయత్నించండి."; }
     };
   }
 
   function thanks(){
-    slide('<img class="hero" src="media/mascot.png" alt=""><h1 style="text-align:center">Thank you!</h1>'+
-      '<p style="text-align:center">Your answers have been saved. You can close this page now.</p>'+
-      '<p class="muted" style="text-align:center">Your response ID: <b>'+S.rid+'</b></p>', false);
+    slide('<img class="hero" src="media/mascot.png" alt=""><h1 style="text-align:center">Thank you! // ధన్యవాదములు!</h1>'+
+      '<p style="text-align:center">Your answers have been saved. You can close this page now. // మీరు ఈ పేజీ ని ఇప్పుడు ముయ్యగలరు.</p>'+
+      '<p class="muted" style="text-align:center">Your response ID // మీ సమాధానానికి ఐ. డీ.: <b>'+S.rid+'</b></p>', false);
   }
 
   render();

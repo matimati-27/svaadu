@@ -279,7 +279,7 @@
 
     function refreshListen(){
       const left = max - used;
-      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓ <br> వినబడింది ✓"; }
+      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓ // వినబడింది ✓"; }
       else ls.textContent = max===1 ? "You can hear this once" : ("You can hear this "+left+" more time"+(left>1?"s":""));
     }
     function refreshMic(){

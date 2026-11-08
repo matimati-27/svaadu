@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kitchen Talk</title>
+<link rel="icon" href="media/mascot.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbf4e9; --card:#fffdf9; --ink:#2b2220; --muted:#7a6a63;
+    --maroon:#7b1e3a; --maroon-d:#5e142b; --teal:#1d8584; --turmeric:#e9a23b;
+    --line:#ecdfcf; --ok:#2f8a4e; --danger:#c2353a;
+    --shadow:0 10px 30px rgba(94,20,43,.10), 0 2px 6px rgba(94,20,43,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--bg);
+    background-image:radial-gradient(circle at 12% 8%, #f6e3c9 0 120px, transparent 121px),
+                     radial-gradient(circle at 92% 95%, #f3dcc0 0 160px, transparent 161px);
+    color:var(--ink); font-family:"Nunito",system-ui,sans-serif; font-size:17px; line-height:1.5;
+    display:flex; flex-direction:column; align-items:center; min-height:100%;
+    padding:16px 16px calc(24px + env(safe-area-inset-bottom));
+  }
+  header{width:100%;max-width:560px;display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}
+  .brand{font-family:"Baloo 2",sans-serif;font-weight:700;color:var(--maroon);font-size:20px;letter-spacing:.2px}
+  .brand span{color:var(--turmeric)}
+  .dots{display:flex;gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .dot.done{background:var(--teal)}
+  .dot.now{background:var(--maroon);transform:scale(1.25)}
+
+  main{width:100%;max-width:560px;flex:1;display:flex}
+  .slide{position:relative;width:100%;background:var(--card);border-radius:24px;box-shadow:var(--shadow);
+    padding:28px 24px 24px;display:flex;flex-direction:column;animation:in .35s ease}
+  @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  h1,h2{font-family:"Baloo 2",sans-serif;color:var(--maroon);line-height:1.15;margin:0 0 10px}
+  h1{font-size:30px} h2{font-size:25px}
+  p{margin:0 0 12px}
+  .muted{color:var(--muted);font-size:15px}
+  .kicker{font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:1.2px;font-size:13px;margin-bottom:6px}
+
+  .hero{display:block;width:min(260px,70%);margin:-6px auto 6px}
+  .peek{position:absolute;left:14px;bottom:10px;width:78px;pointer-events:none}
+
+  .btn{appearance:none;border:0;border-radius:14px;padding:14px 22px;font:700 17px "Nunito",sans-serif;cursor:pointer;
+    background:var(--maroon);color:#fff;box-shadow:0 4px 0 var(--maroon-d);transition:transform .08s, opacity .2s}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--maroon-d)}
+  .btn[disabled]{opacity:.35;cursor:not-allowed;box-shadow:none}
+  .btn.ghost{background:transparent;color:var(--maroon);box-shadow:inset 0 0 0 2px var(--maroon)}
+  .spacer{flex:1}
+  .row{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+  ul.consent{padding-left:20px;margin:6px 0 14px} ul.consent li{margin-bottom:8px}
+  label.check{display:flex;gap:12px;align-items:flex-start;background:#fbf1e3;border-radius:14px;padding:14px;font-weight:700;cursor:pointer}
+  label.check input{width:22px;height:22px;accent-color:var(--maroon);flex:none;margin-top:2px}
+
+  video{width:100%;border-radius:16px;background:#000;margin:8px 0}
+
+  .stage{display:flex;flex-direction:column;align-items:center;gap:22px;margin:18px 0 6px}
+  .action{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+  .round{width:112px;height:112px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;
+    font-size:44px;color:#fff;transition:transform .1s, opacity .2s, background .2s;position:relative}
+  .round:active{transform:scale(.96)}
+  .round[disabled]{opacity:.3;cursor:not-allowed}
+  .listen{background:var(--teal);box-shadow:0 6px 0 #146463}
+  .mic{background:var(--maroon);box-shadow:0 6px 0 var(--maroon-d)}
+  .mic.saved,.mic.saved[disabled]{background:var(--ok);box-shadow:0 6px 0 #1f6136;opacity:1}
+  .mic.rec{background:var(--danger);box-shadow:0 6px 0 #8f2226}
+  .mic.rec::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:4px solid var(--danger);animation:pulse 1.2s infinite}
+  @keyframes pulse{from{opacity:.8;transform:scale(.92)}to{opacity:0;transform:scale(1.25)}}
+  .round svg{width:48px;height:48px;fill:#fff}
+  .label{font-weight:700;color:var(--ink);text-align:center}
+  .sub{font-size:14px;color:var(--muted);text-align:center;min-height:21px}
+  .timer{font:700 22px "Baloo 2",sans-serif;color:var(--danger)}
+  .status{font-weight:700;text-align:center;min-height:24px}
+  .status.ok{color:var(--ok)} .status.err{color:var(--danger)}
+  .bars{display:inline-flex;gap:3px;align-items:flex-end;height:18px;margin-left:6px;vertical-align:middle}
+  .bars i{width:4px;background:var(--teal);border-radius:2px;animation:bar .8s infinite ease-in-out}
+  .bars i:nth-child(2){animation-delay:.15s}.bars i:nth-child(3){animation-delay:.3s}
+  @keyframes bar{0%,100%{height:5px}50%{height:18px}}
+  .divider{width:2px;height:22px;background:var(--line);border-radius:2px}
+
+  form.details{display:grid;gap:14px;margin-top:6px}
+  form.details label{display:grid;gap:5px;font-weight:700;font-size:15px}
+  form.details input,form.details select{font:16px "Nunito",sans-serif;padding:12px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--ink)}
+  form.details input:focus,form.details select:focus{outline:none;border-color:var(--teal)}
+  .opt{font-weight:400;color:var(--muted)}
+
+  /* pop-ups */
+  .scrim{position:fixed;inset:0;background:rgba(43,34,32,.45);display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:10}
+  .scrim.show{display:flex}
+  @media(min-width:600px){.scrim{align-items:center}}
+  .pop{background:var(--card);border-radius:22px;max-width:440px;width:100%;padding:20px 20px 18px;box-shadow:var(--shadow);
+    display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;animation:in .25s ease}
+  .pop img{width:72px}
+  .pop h3{margin:2px 0 6px;font:700 20px "Baloo 2",sans-serif;color:var(--maroon)}
+  .pop p{margin:0 0 6px;font-size:16px}
+  .pop .row{grid-column:1/-1;margin-top:6px}
+
+  .banner{width:100%;max-width:560px;background:#fde8e8;color:var(--danger);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-weight:700;font-size:14px;display:none}
+  footer{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="banner" id="banner"></div>
+<header>
+  <div class="brand">Kitchen<span>·</span>Talk</div>
+  <div class="dots" id="dots"></div>
+</header>
+<main id="main"></main>
+<footer id="foot"></footer>
+
+<div class="scrim" id="scrim"><div class="pop" id="pop"></div></div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+  "use strict";
+  const C = window.STUDY_CONFIG;
+  const $ = (s, el=document) => el.querySelector(s);
+  const main = $("#main");
+  const ICON = {
+    speaker:'<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>',
+    mic:'<svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-10.6 0H5a7 7 0 0 0 6 6.9V21h2v-3.1a7 7 0 0 0 6-6.9h-1.7z"/></svg>',
+    stop:'<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+    check:'<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>'
+  };
+
+  // ---------- language & state ----------
+  const params = new URLSearchParams(location.search);
+  const lang = (params.get("lang") || C.defaultLang || "te").toLowerCase();
+  const L = C.languages[lang];
+  if (!L) { document.body.innerHTML = "<p style='padding:24px'>Unknown language in link: " + lang + "</p>"; return; }
+  const QS = L.questions;
+
+  const SLIDES = ["intro","consent","video", ...QS.map((q,i)=>"q"+i), "details","thanks"];
+  const KEY = "kitchentalk_v1_" + lang;
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || null; }catch(e){ return null; } }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+  let S = load() || { rid: newId(), slide: 0, listens:{}, done:{}, firstQSeen:false };
+  function newId(){ const a="abcdefghjkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<6;i++) s+=a[Math.floor(Math.random()*a.length)]; return "R-"+s.toUpperCase(); }
+
+  if (!C.appsScriptUrl || C.appsScriptUrl.indexOf("PASTE_") === 0) {
+    const b=$("#banner"); b.style.display="block";
+    b.textContent="Setup incomplete: paste your Apps Script URL into config.js (answers cannot be saved yet).";
+  }
+  $("#foot").innerHTML = ""; $("#foot").append(C.consent.researchers + " · ", Object.assign(document.createElement("span"),{textContent:"ID "+S.rid, style:"white-space:nowrap"}));
+
+  // ---------- pop-ups ----------
+  function popup({title, text, buttons}){
+    return new Promise(res=>{
+      const pop=$("#pop"), scrim=$("#scrim");
+      pop.innerHTML = '<img src="media/mascot.png" alt=""><div><h3></h3><p></p></div><div class="row"></div>';
+      $("h3",pop).textContent = title; $("p",pop).innerHTML = text;
+      const row=$(".row",pop);
+      (buttons||[{label:"Got it", value:true}]).forEach(b=>{
+        const el=document.createElement("button"); el.className="btn"+(b.ghost?" ghost":""); el.textContent=b.label;
+        el.onclick=()=>{ scrim.classList.remove("show"); res(b.value); };
+        row.appendChild(el);
+      });
+      scrim.classList.add("show");
+    });
+  }
+
+  // ---------- network ----------
+  function post(payload){
+    const body = JSON.stringify(payload);
+    // text/plain avoids a CORS preflight, which Apps Script does not answer.
+    return fetch(C.appsScriptUrl, {method:"POST", body, headers:{"Content-Type":"text/plain;charset=utf-8"}, redirect:"follow"})
+      .then(r=>r.json())
+      .then(j=>{ if(!j.ok) throw new Error(j.error||"Server error"); return "ok"; })
+      .catch(err=>{
+        // If the response couldn't be read (CORS), send once more without reading it.
+        if (err && err.name === "TypeError") {
+          return fetch(C.appsScriptUrl, {method:"POST", mode:"no-cors", body, headers:{"Content-Type":"text/plain;charset=utf-8"}})
+            .then(()=> "unconfirmed");
+        }
+        throw err;
+      });
+  }
+  function blobToBase64(blob){
+    return new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(",")[1]); fr.onerror=rej; fr.readAsDataURL(blob); });
+  }
+
+  // ---------- navigation ----------
+  let busy = false;  // recording or uploading
+  window.addEventListener("beforeunload", e=>{ if(busy){ e.preventDefault(); e.returnValue=""; } });
+
+  function go(i){ S.slide=i; save(); render(); window.scrollTo(0,0); }
+  function next(){ go(S.slide+1); }
+  function dots(){
+    const d=$("#dots"); d.innerHTML="";
+    SLIDES.forEach((_,i)=>{ const e=document.createElement("div"); e.className="dot"+(i<S.slide?" done":i===S.slide?" now":""); d.appendChild(e); });
+  }
+  function slide(html, peek=true){
+    main.innerHTML = '<section class="slide">'+(peek?'<img class="peek" src="media/mascot.png" alt="">':'')+html+'</section>';
+    return $(".slide", main);
+  }
+
+  function render(){
+    dots();
+    const name = SLIDES[S.slide];
+    if (name==="intro") return intro();
+    if (name==="consent") return consent();
+    if (name==="video") return video();
+    if (name==="details") return details();
+    if (name==="thanks") return thanks();
+    return question(parseInt(name.slice(1),10));
+  }
+
+  // ---------- slides ----------
+  function intro(){
+    const el = slide('<img class="hero" src="media/mascot.png" alt="Mascot girl holding a ladle">'+
+      '<div class="kicker">A study on home cooking</div><h1></h1><p class="body"></p><div class="spacer"></div>'+
+      '<div class="row"><button class="btn" id="go">Let\'s start</button></div>', false);
+    $("h1",el).textContent=C.intro.title; $(".body",el).textContent=C.intro.body;
+    $("#go",el).onclick=next;
+  }
+
+  function consent(){
+    const el = slide('<div class="kicker">Consent</div><h2></h2><ul class="consent"></ul>'+
+      '<label class="check"><input type="checkbox" id="agree"><span></span></label><div class="spacer"></div>'+
+      '<div class="row"><button class="btn" id="go" disabled>I agree, continue</button></div>');
+    $("h2",el).textContent=C.consent.title;
+    const ul=$("ul",el); C.consent.points.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); });
+    $("label span",el).textContent=C.consent.checkboxLabel;
+    const go=$("#go",el), cb=$("#agree",el);
+    cb.onchange=()=>{ go.disabled=!cb.checked; };
+    go.onclick=async ()=>{
+      go.disabled=true;
+      await popup({title:"Microphone check", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b> — we need it to record your answers."});
+      try{
+        const st = await navigator.mediaDevices.getUserMedia({audio:true});
+        st.getTracks().forEach(t=>t.stop());
+      }catch(e){
+        await popup({title:"Microphone blocked", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.)"});
+        go.disabled=false; return;
+      }
+      if(!S.startSent){ post({kind:"start", rid:S.rid, lang, ua:navigator.userAgent}).then(()=>{S.startSent=true;save();}).catch(()=>{}); }
+      next();
+    };
+  }
+
+  function video(){
+    const el = slide('<div class="kicker">Watch</div><h2>A short cooking video</h2>'+
+      '<video id="v" playsinline controls preload="metadata"></video>'+
+      '<p class="muted" id="vs">Watch till the end to continue.</p><div class="spacer"></div>'+
+      '<div class="row"><button class="btn" id="go" disabled>Next</button></div>');
+    const v=$("#v",el); v.src=C.video;
+    v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent="Done! Tap Next."; S.videoDone=true; save(); };
+    v.onerror=()=>{ $("#vs",el).textContent="The video didn't load. Check your connection and reload the page."; };
+    if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent="You've watched it. Tap Next."; }
+    $("#go",el).onclick=next;
+    popup({title:"Watch the video", text:"Tap ▶ and watch the whole video. There's no talking in it, only music — just watch what is being cooked."});
+  }
+
+  function question(i){
+    const q = QS[i];
+    const el = slide('<div class="kicker">Question '+(i+1)+' of '+QS.length+'</div>'+
+      '<div class="stage">'+
+        '<div class="action"><button class="round listen" id="listen" aria-label="Listen to the question">'+ICON.speaker+'</button>'+
+        '<div class="label">1 · Listen</div><div class="sub" id="ls"></div></div>'+
+        '<div class="divider"></div>'+
+        '<div class="action"><button class="round mic" id="mic" aria-label="Record your answer" disabled>'+ICON.mic+'</button>'+
+        '<div class="label">2 · Answer</div><div class="sub" id="ms">Listen to the question first</div><div class="timer" id="timer"></div></div>'+
+        '<div class="status" id="st"></div>'+
+      '</div><div class="spacer"></div>'+
+      '<div class="row"><button class="btn ghost" id="retry" style="display:none">Retry sending</button><button class="btn" id="go" disabled>Next question</button></div>');
+
+    const listen=$("#listen",el), mic=$("#mic",el), ls=$("#ls",el), ms=$("#ms",el), st=$("#st",el), timer=$("#timer",el), go=$("#go",el), retry=$("#retry",el);
+    const max = C.maxListens || 1;
+    let used = S.listens[q.id] || 0;
+    let heard = used > 0;
+    let rec=null, chunks=[], stream=null, t0=0, tick=null, autoStop=null, pendingBlob=null, pendingMime="";
+
+    function refreshListen(){
+      const left = max - used;
+      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓"; }
+      else ls.textContent = max===1 ? "You can hear this once" : ("You can hear this "+left+" more time"+(left>1?"s":""));
+    }
+    function refreshMic(){
+      if (S.done[q.id]) { mic.disabled=true; mic.classList.add("saved"); mic.innerHTML=ICON.check; ms.textContent="Answer saved"; go.disabled=false; return; }
+      mic.disabled = !heard; if(heard) ms.textContent="Tap to start recording";
+    }
+    refreshListen(); refreshMic();
+    if (S.done[q.id]) { st.className="status ok"; st.textContent="Your answer was sent ✓"; }
+
+    if (!S.firstQSeen){
+      popup({title:"How this works", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. Listen carefully — you can hear it only "+(max===1?"once":max+" times")+".<br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud, the way you would at home. Tap it again when you're done."})
+        .then(()=>{ S.firstQSeen=true; save(); });
+    }
+
+    listen.onclick=()=>{
+      if (used>=max || busy) return;
+      const a = new Audio(q.audio);
+      listen.disabled=true; ls.innerHTML='Playing<span class="bars"><i></i><i></i><i></i></span>';
+      a.onended=()=>{
+        used++; S.listens[q.id]=used; heard=true; save();
+        listen.disabled = used>=max; refreshListen(); refreshMic();
+      };
+      a.onerror=()=>{ listen.disabled=false; ls.textContent="Couldn't load the question. Check your internet and tap again."; };
+      a.play().catch(()=>{ listen.disabled=false; ls.textContent="Tap again to play."; });
+    };
+
+    function pickMime(){
+      const opts=["audio/webm;codecs=opus","audio/mp4","audio/ogg;codecs=opus","audio/webm","audio/aac"];
+      if (!window.MediaRecorder) return null;
+      for (const m of opts){ try{ if (MediaRecorder.isTypeSupported(m)) return m; }catch(e){} }
+      return "";
+    }
+    function fmt(s){ const m=Math.floor(s/60), r=Math.floor(s%60); return m+":"+String(r).padStart(2,"0"); }
+
+    async function startRec(){
+      const mime = pickMime();
+      if (mime===null){ await popup({title:"Recording not supported", text:"This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone)."}); return; }
+      try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}); }
+      catch(e){ await popup({title:"Microphone blocked", text:"Please allow microphone access for this site, then tap the microphone again."}); return; }
+      chunks=[];
+      try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime, audioBitsPerSecond:48000}) : new MediaRecorder(stream); }
+      catch(e){ rec = new MediaRecorder(stream); }
+      rec.ondataavailable = e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+      rec.onstop = onStopped;
+      rec.start(1000);
+      busy=true; t0=Date.now();
+      mic.classList.add("rec"); mic.innerHTML=ICON.stop; ms.textContent="Recording… tap to finish"; listen.disabled=true;
+      timer.textContent="0:00";
+      tick=setInterval(()=>{ timer.textContent=fmt((Date.now()-t0)/1000); },500);
+      autoStop=setTimeout(()=>{ if(rec && rec.state==="recording") rec.stop(); }, (C.maxRecordSeconds||360)*1000);
+    }
+
+    async function askStop(){
+      const ok = await popup({title:"Finished answering?", text:"You can't record this answer again, so take your time if you have more to say.",
+        buttons:[{label:"Keep talking", value:false, ghost:true},{label:"Yes, I'm done", value:true}]});
+      if (ok && rec && rec.state==="recording") rec.stop();
+    }
+
+    function onStopped(){
+      clearInterval(tick); clearTimeout(autoStop);
+      const secs = Math.round((Date.now()-t0)/1000);
+      if (stream) stream.getTracks().forEach(t=>t.stop());
+      pendingMime = (rec && rec.mimeType) || (chunks[0] && chunks[0].type) || "audio/webm";
+      pendingBlob = new Blob(chunks, {type: pendingMime});
+      pendingBlob._secs = secs;
+      mic.classList.remove("rec"); mic.innerHTML=ICON.check; mic.disabled=true; ms.textContent="Recorded ("+fmt(secs)+")"; timer.textContent="";
+      send();
+    }
+
+    async function send(){
+      retry.style.display="none";
+      st.className="status"; st.innerHTML='Sending your answer<span class="bars"><i></i><i></i><i></i></span>';
+      busy=true;
+      try{
+        const b64 = await blobToBase64(pendingBlob);
+        const ext = /mp4|aac|m4a/.test(pendingMime) ? "m4a" : /ogg/.test(pendingMime) ? "ogg" : "webm";
+        const res = await post({kind:"audio", rid:S.rid, lang, qid:q.id, qindex:i+1, mimeType:pendingMime.split(";")[0], ext,
+          durationSec:pendingBlob._secs, sizeBytes:pendingBlob.size, audio:b64});
+        S.done[q.id]=true; save(); busy=false; mic.classList.add("saved");
+        st.className="status ok"; st.textContent = "Your answer was sent ✓";
+        go.disabled=false;
+      }catch(e){
+        busy=true; // keep the warning on leave: answer not yet saved
+        st.className="status err"; st.textContent="Couldn't send — check your internet, then tap Retry.";
+        retry.style.display="inline-block";
+      }
+    }
+    retry.onclick=send;
+
+    mic.onclick=()=>{
+      if (S.done[q.id]) return;
+      if (rec && rec.state==="recording") askStop(); else if (heard && !pendingBlob) startRec();
+    };
+    go.onclick=()=>{ if(!busy) next(); };
+  }
+
+  function details(){
+    const el = slide('<div class="kicker">Almost done</div><h2>A little about you</h2>'+
+      '<p class="muted">This helps us compare answers. No names, please.</p>'+
+      '<form class="details" id="f">'+
+        '<label>Age<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
+        '<label>Gender<select name="gender" required><option value="">Choose…</option><option>Woman</option><option>Man</option><option>Other</option><option>Prefer not to say</option></select></label>'+
+        '<label>Mother tongue<input name="mother_tongue" required></label>'+
+        '<label>Other languages you speak<input name="other_languages" placeholder="e.g. Hindi, English"></label>'+
+        '<label>Where did you grow up? <span class="opt">(city / town, state)</span><input name="grew_up" required></label>'+
+        '<label>Where do you live now?<input name="lives_now" required></label>'+
+        '<label>Medium of your schooling<select name="school_medium" required><option value="">Choose…</option><option>English</option><option>Telugu</option><option>Hindi</option><option>Other</option></select></label>'+
+        '<label>How long have you been cooking regularly?<select name="cooking_years" required><option value="">Choose…</option><option>Less than 1 year</option><option>1–5 years</option><option>5–15 years</option><option>More than 15 years</option><option>I don\'t cook regularly</option></select></label>'+
+        '<div class="status" id="st"></div>'+
+        '<div class="row"><button class="btn" id="go" type="submit">Submit</button></div>'+
+      '</form>');
+    const f=$("#f",el), st=$("#st",el), go=$("#go",el);
+    f.onsubmit=async e=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(f).entries());
+      go.disabled=true; st.className="status"; st.textContent="Sending…";
+      try{ await post({kind:"details", rid:S.rid, lang, ...data}); S.finished=true; save(); next(); }
+      catch(err){ go.disabled=false; st.className="status err"; st.textContent="Couldn't send — check your internet and tap Submit again."; }
+    };
+  }
+
+  function thanks(){
+    slide('<img class="hero" src="media/mascot.png" alt=""><h1 style="text-align:center">Thank you!</h1>'+
+      '<p style="text-align:center">Your answers have been saved. You can close this page now.</p>'+
+      '<p class="muted" style="text-align:center">Your response ID: <b>'+S.rid+'</b></p>', false);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

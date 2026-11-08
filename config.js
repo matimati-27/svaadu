@@ -4,7 +4,7 @@
 window.STUDY_CONFIG = {
 
   // 1) Paste the Web App URL from Google Apps Script here (ends in /exec).
-  appsScriptUrl: "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbyOkn77mt9dwZjRn0AoxYdHXeIBtxOf9u2YwcEl3xc4hRFsJl0cEGBBtvD5c-1qyj94/exec",
 
   // 2) Language used when the link has no ?lang=... part.
   //    Send people  .../?lang=te  for Telugu,  .../?lang=hi  for Hindi.

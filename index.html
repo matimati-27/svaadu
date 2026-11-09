@@ -248,10 +248,10 @@
   function video(){
     const el = slide('<div class="kicker">Watch // చూడండి</div><h2> Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ</h2>'+
       '<video id="v" playsinline controls preload="metadata"></video>'+
-      '<p class="muted" id="vs">Watch till the end to continue.- ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి.</p><div class="spacer"></div>'+
+      '<p class="muted" id="vs">Watch till the end to continue. (Credits: Vismai Foods) <br> ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి. ()</p><div class="spacer"></div>'+
       '<div class="row"><button class="btn" id="go" disabled>Next</button></div>');
     const v=$("#v",el); v.src=C.video;
-    v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent="Done! Tap Next."; S.videoDone=true; save(); };
+    v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent="Done! Tap Next. // వీడియో పూర్తయ్యింది. 'Next' నొక్కండి."; S.videoDone=true; save(); };
     v.onerror=()=>{ $("#vs",el).textContent="The video didn't load. Check your connection and reload the page."; };
     if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent="You've watched it. Tap Next."; }
     $("#go",el).onclick=next;

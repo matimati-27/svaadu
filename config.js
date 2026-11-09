@@ -62,5 +62,7 @@ window.STUDY_CONFIG = {
       "Please answer in a quiet place. Each question can be heard once and answered once, there is no re-recording. // ఒక ప్రశాంతమైన చోటులో సమాధానాలు ఇవ్వండి. మీరు సమాధానం ఒక్కసారె రికార్డ్ చెయ్యగలుగుతారు."
     ],
     checkboxLabel: "I am 18 or older and I agree to take part. // నా వయస్సు కనీసం 18 ఏళ్లు. నేను ఈ సర్వేక్షణ లో పాల్గొనడానికి ఒప్పుకుంటున్నాను.",
+    researchers: "IIIT Hyderabad"
+
   }
 };

@@ -246,7 +246,7 @@
   }
 
   function video(){
-    const el = slide('<div class="kicker">Watch - చూడండి</div><h2> Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ</h2>'+
+    const el = slide('<div class="kicker">Watch // చూడండి</div><h2> Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ</h2>'+
       '<video id="v" playsinline controls preload="metadata"></video>'+
       '<p class="muted" id="vs">Watch till the end to continue.- ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి.</p><div class="spacer"></div>'+
       '<div class="row"><button class="btn" id="go" disabled>Next</button></div>');
@@ -333,7 +333,7 @@
     }
 
     async function askStop(){
-      const ok = await popup({title:"Finished answering? // మీరు జవాబు పూర్తిగా ఇచ్చారా?", text:"You can't record this answer again, so take your time if you have more to say. <br> జవాబును మళ్లా రికార్డు చెయ్యడమవ్వదు. అందుకే ఇంకా ఏమైనా చెప్తారంటే మీరు ఇప్పుడు వెనక్కి వెళ్లీ చెప్పగలరు." ,
+      const ok = await popup({title:"Finished answering? // మీరు సమాధానం పూర్తిగా ఇచ్చారా?", text:"You can't record this answer again, so take your time if you have more to say. <br> మీ సమాధానాన్ని మీరు మళ్లా రికార్డు చేసుకోలేరు. అందుకే ఇంకా ఏమైనా చెప్తారంటే మీరు ఇప్పుడు వెనక్కి వెళ్లీ చెప్పగలరు." ,
         buttons:[{label:"talk // చెప్పాలి", value:false, ghost:true},{label:"done // అయింది", value:true}]});
       if (ok && rec && rec.state==="recording") rec.stop();
     }
@@ -351,7 +351,7 @@
 
     async function send(){
       retry.style.display="none";
-      st.className="status"; st.innerHTML='Sending your answer // మీ జవాబు చేరుతున్నాది <span class="bars"><i></i><i></i><i></i></span>';
+      st.className="status"; st.innerHTML='Sending your answer // మీ సమాధానం చేరుతున్నాది <span class="bars"><i></i><i></i><i></i></span>';
       busy=true;
       try{
         const b64 = await blobToBase64(pendingBlob);
@@ -380,10 +380,10 @@
     const el = slide('<div class="kicker">Almost done // చివరికి</div><h2>A little about you // మీ గురించి కొన్ని వివరాలు</h2>'+
       '<p class="muted">This helps us study answers. No names, please. <br> ఇవి వేరే సమాధానాలను అర్ధం చేసుకోడంలో మాకు సహాయబడతాయి. మీ పేరు ఎక్కడా రాయకండి.</p>'+
       '<form class="details" id="f">'+
-        '<label>Age<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
+        '<label>Age // వయస్సు<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
         '<label>Gender // లింగం<select name="gender" required><option value="">Choose…</option><option>Female // మహిళ​</option><option>Man // పురుషుడు</option></select></label>'+
         '<label>Mother tongue // మాతృభాష​<input name="mother_tongue" required></label>'+
-        '<label>Other languages you understand? // మీరు యే వేరే భాషలు అర్ధమవుతాయి? <input name="other_languages"</label>'+
+        '<label>Other languages you understand? // మీకు యే యే వేరే భాషలు అర్ధమవుతాయి? <input name="other_languages"</label>'+
         '<label>Where did you grow up? // మీరు ఎక్కడ పెరిగారు? <span class="opt">(city / town, state)</span><input name="grew_up" required></label>'+
         '<label>Where do you live now? // ఇప్పుడు ఎక్కడ ఉంటున్నారు?<input name="lives_now" required></label>'+
         '<label>Since how long have you been able to cook regularly? // ఎప్పటి నుంచీ మీరు వంట వండగలుగుతున్నారు? <select name="cooking_years" required><option value="">Choose…</option><option>Less than 1 year // ఒక ఏడాది లోపల​</option><option>1–5 years // కిందటి 1-5 ఏళ్ల​ లోపల​</option><option>5–15 years // కిందటి 5-15 ఏళ్ల​ లోపల​ </option><option>More than 15 years // కిందటి 15 ఏళ్ల పైన</option><option>I don\'t cook regularly // నాకు వండే అలవాటు లేదు</option></select></label>'+

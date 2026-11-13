@@ -24,18 +24,18 @@ window.STUDY_STRINGS = {
         "This takes about 10–15 minutes. You will watch a short cooking video and then answer a few questions " +
         "by speaking — just like a conversation. There are no right or wrong answers." +
         "<br><br>" +
-        "ఇది ఆహరపద్ధతుల గురించి జరుగుతున్న ఒక పరిశీలన​. ఈ సర్వేక్షణలో ఉన్న ప్రశ్నలన్నిటికీ సమాధానం ఇవ్వడానికి మొత్తం 10-15 ని॥ పడతాయి.​",
+        "ఇది ఆహారపద్ధతుల గురించి జరుగుతున్న ఒక పరిశీలన​. ఈ సర్వేక్షణలో ఉన్న ప్రశ్నలన్నిటికీ సమాధానం ఇవ్వడానికి మొత్తం 10-15 ని॥ పడతాయి.​",
       start: "Let's start"                                                  // (EN only)
     },
 
     consent: {
       kicker: "Consent",                                                    // (EN only)
-      title: "Before we begin // మొదలపెట్టే ముందు కొన్ని సూచనలు",
+      title: "Before we begin // మొదలుపెట్టే ముందు కొన్ని సూచనలు",
       points: [
         "Your spoken answers will be recorded and used only for our course project at IIIT Hyderabad. // మీ సమాధానాలు ఈ ప్రాజెక్టు కోసమే వాడబడతాయి.",
         "Your name will not be asked or used. Recordings are stored privately with the researchers. // మేము మీ పేరుకోసం ఎక్కడా అడగము ఇంక మీ పేరుని ఎక్కడా వాడము.",
         "You may stop at any time by closing this page. // మీరు మధ్యలో ఎప్పుడైనా ఈ పేజీని ముయ్యగలరు.",
-        "Please answer in a quiet place. Each question can be heard once and answered once, there is no re-recording. // ఒక ప్రశాంతమైన చోటులో సమాధానాలు ఇవ్వండి. మీరు సమాధానం ఒక్కసారె రికార్డ్ చెయ్యగలుగుతారు."
+        "Please answer in a quiet place. Each question can be heard once and answered once, there is no re-recording. // ఒక ప్రశాంతమైన చోటులో సమాధానాలు ఇవ్వండి. మీరు సమాధానం ఒక్కసారే రికార్డ్ చెయ్యగలుగుతారు."
       ],
       checkbox: "I am 18 or older and I agree to take part. // నా వయస్సు కనీసం 18 ఏళ్లు. నేను ఈ సర్వేక్షణ లో పాల్గొనడానికి ఒప్పుకుంటున్నాను.",
       continueBtn: "I agree, continue",                                     // (EN only)
@@ -52,7 +52,7 @@ window.STUDY_STRINGS = {
     video: {
       kicker: "Watch // చూడండి",
       heading: /* [html] */ "Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ",
-      hint: /* [html] */ "Watch till the end to continue. (Credits: Vismai Foods) <br> ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి. ()",
+      hint: /* [html] */ "Watch till the end to continue. (Credits: Vismai Foods) <br> ముందుకెళ్లడానికి వీడియో చివరి వరకూ చూడండి. (సౌజన్యం: Vismai Foods)",
       ended: "Done! Tap Next. // వీడియో పూర్తయ్యింది. 'Next' నొక్కండి.",
       watched: "You've watched it. Tap Next.",                              // (EN only)
       loadError: "The video didn't load. Check your connection and reload the page.", // (EN only)
@@ -71,7 +71,7 @@ window.STUDY_STRINGS = {
                                         : "You can hear this " + left + " more time" + (left > 1 ? "s" : ""),
       heard: "Heard ✓ // వినబడింది ✓",
       playing: "Playing",                                                   // (EN only)
-      loadError: "Couldn't load the question. Check your internet and tap again. // ప్రశ్న చూబించలేకపోయాము. మీ ఇంటర్నెట్ కనెక్షన్ చూసుకోండి.",
+      loadError: "Couldn't load the question. Check your internet and tap again. // ప్రశ్న వినిపించలేకపోయాము. మీ ఇంటర్నెట్ కనెక్షన్ చూసుకోండి.",
       tapAgain: "Tap again to play.",                                       // (EN only)
       listenFirst: "Listen to the question first",                          // (EN only)
       tapToRecord: "Tap to start recording",                                // (EN only)
@@ -93,7 +93,7 @@ window.STUDY_STRINGS = {
       },
       notSupported: {
         title: "Recording not supported // రికార్డింగ్ చెయ్యడమవ్వదు",
-        text: /* [html] */ "This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone). <br> ఈ బ్రౌజర్ లో రికార్డింగ్ అవ్వదు. దయచేసి క్రోమ్ (Android) లో లెదా సఫారీ (iPhone) లో దీన్ని తెరవండి."
+        text: /* [html] */ "This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone). <br> ఈ బ్రౌజర్ లో రికార్డింగ్ అవ్వదు. దయచేసి క్రోమ్ (Android) లో లేదా సఫారీ (iPhone) లో దీన్ని తెరవండి."
       },
       micBlocked: {
         title: "Microphone blocked // మైక్ బ్లాక్ అయింది",
@@ -182,7 +182,7 @@ window.STUDY_STRINGS = {
     video: {
       kicker: "Watch // देखिए",
       heading: /* [html] */ "Please see this short video <br> यह छोटा-सा खाना बनाने का वीडियो देखिए",
-      hint: /* [html] */ "Watch till the end to continue. (Credits: Vismai Foods) <br> आगे बढ़ने के लिए वीडियो आख़िर तक देखिए। (सौजन्य: Vismai Foods)",
+      hint: /* [html] */ "Watch till the end to continue. (Credits: [CHANNEL NAME]) <br> आगे बढ़ने के लिए वीडियो आख़िर तक देखिए। (सौजन्य: [CHANNEL NAME])",
       ended: "Done! Tap Next. // वीडियो पूरा हो गया। 'Next' दबाइए।",
       watched: "You've watched it. Tap Next.",                              // (EN only)
       loadError: "The video didn't load. Check your connection and reload the page.", // (EN only)

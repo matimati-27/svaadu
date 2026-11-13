@@ -17,6 +17,7 @@ window.STUDY_CONFIG = {
   maxRecordSeconds: 360,
 
   // 3) The recipe video (no voiceover, no on-screen text). Put the file in media/.
+  //    A language can override this with its own  video: "..."  line (see hi below).
   video: "media/recipe.mp4",
 
   // 4) Your question recordings. Put the files in questions/te/ and questions/hi/
@@ -35,6 +36,9 @@ window.STUDY_CONFIG = {
     },
     hi: {
       name: "Hindi",
+      // Optional: a different recipe video for this language (no voiceover, no on-screen text).
+      // Without this line, the shared "video" setting above is used.
+      video: "media/recipe-hi.mp4",
       questions: [
         { id: "q1_lunch",      audio: "questions/hi/q1.m4a" },
         { id: "q2_restaurant", audio: "questions/hi/q2.m4a" },

@@ -259,7 +259,7 @@
       '<video id="v" playsinline controls preload="metadata"></video>'+
       '<p class="muted" id="vs">'+V.hint+'</p><div class="spacer"></div>'+
       '<div class="row"><button class="btn" id="go" disabled>'+esc(V.next)+'</button></div>');
-    const v=$("#v",el); v.src=C.video;
+    const v=$("#v",el); v.src=L.video || C.video;
     v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent=V.ended; S.videoDone=true; save(); };
     v.onerror=()=>{ $("#vs",el).textContent=V.loadError; };
     if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent=V.watched; }

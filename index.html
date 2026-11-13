@@ -7,7 +7,7 @@
 <link rel="icon" href="media/mascot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&family=Baloo+Tammudu+2:wght@500;700&family=Nunito:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#fbf4e9; --card:#fffdf9; --ink:#2b2220; --muted:#7a6a63;
@@ -21,7 +21,7 @@
     background:var(--bg);
     background-image:radial-gradient(circle at 12% 8%, #f6e3c9 0 120px, transparent 121px),
                      radial-gradient(circle at 92% 95%, #f3dcc0 0 160px, transparent 161px);
-    color:var(--ink); font-family:"Nunito",system-ui,sans-serif; font-size:17px; line-height:1.5;
+    color:var(--ink); font-family:"Nunito","Noto Sans Devanagari","Noto Sans Telugu",system-ui,sans-serif; font-size:17px; line-height:1.5;
     display:flex; flex-direction:column; align-items:center; min-height:100%;
     padding:16px 16px calc(24px + env(safe-area-inset-bottom));
   }
@@ -37,7 +37,7 @@
   .slide{position:relative;width:100%;background:var(--card);border-radius:24px;box-shadow:var(--shadow);
     padding:28px 24px 24px;display:flex;flex-direction:column;animation:in .35s ease}
   @keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  h1,h2{font-family:"Baloo 2",sans-serif;color:var(--maroon);line-height:1.15;margin:0 0 10px}
+  h1,h2{font-family:"Baloo 2","Baloo Tammudu 2","Noto Sans Telugu",sans-serif;color:var(--maroon);line-height:1.15;margin:0 0 10px}
   h1{font-size:30px} h2{font-size:25px}
   p{margin:0 0 12px}
   .muted{color:var(--muted);font-size:15px}
@@ -87,6 +87,8 @@
   form.details{display:grid;gap:14px;margin-top:6px}
   form.details label{display:grid;gap:5px;font-weight:700;font-size:15px}
   form.details input,form.details select{font:16px "Nunito",sans-serif;padding:12px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--ink)}
+  form.details label{min-width:0}
+  form.details input,form.details select{width:100%;min-width:0;max-width:100%;text-overflow:ellipsis}
   form.details input:focus,form.details select:focus{outline:none;border-color:var(--teal)}
   .opt{font-weight:400;color:var(--muted)}
 
@@ -97,7 +99,7 @@
   .pop{background:var(--card);border-radius:22px;max-width:440px;width:100%;padding:20px 20px 18px;box-shadow:var(--shadow);
     display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;animation:in .25s ease}
   .pop img{width:72px}
-  .pop h3{margin:2px 0 6px;font:700 20px "Baloo 2",sans-serif;color:var(--maroon)}
+  .pop h3{margin:2px 0 6px;font:700 20px "Baloo 2","Baloo Tammudu 2","Noto Sans Telugu",sans-serif;color:var(--maroon)}
   .pop p{margin:0 0 6px;font-size:16px}
   .pop .row{grid-column:1/-1;margin-top:6px}
 
@@ -117,11 +119,13 @@
 <div class="scrim" id="scrim"><div class="pop" id="pop"></div></div>
 
 <script src="config.js"></script>
+<script src="strings.js"></script>
 <script>
 (function(){
   "use strict";
   const C = window.STUDY_CONFIG;
   const $ = (s, el=document) => el.querySelector(s);
+  const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   const main = $("#main");
   const ICON = {
     speaker:'<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>',
@@ -134,7 +138,9 @@
   const params = new URLSearchParams(location.search);
   const lang = (params.get("lang") || C.defaultLang || "te").toLowerCase();
   const L = C.languages[lang];
-  if (!L) { document.body.innerHTML = "<p style='padding:24px'>Unknown language in link: " + lang + "</p>"; return; }
+  const T = (window.STUDY_STRINGS || {})[lang];
+  if (!L || !T) { document.body.innerHTML = "<p style='padding:24px'>Unknown language in link: " + esc(lang) + "</p>"; return; }
+  document.documentElement.lang = T.htmlLang || lang;
   const QS = L.questions;
 
   const SLIDES = ["intro","consent","video", ...QS.map((q,i)=>"q"+i), "details","thanks"];
@@ -157,7 +163,7 @@
       pop.innerHTML = '<img src="media/mascot.png" alt=""><div><h3></h3><p></p></div><div class="row"></div>';
       $("h3",pop).textContent = title; $("p",pop).innerHTML = text;
       const row=$(".row",pop);
-      (buttons||[{label:"Got it", value:true}]).forEach(b=>{
+      (buttons||[{label:T.gotIt, value:true}]).forEach(b=>{
         const el=document.createElement("button"); el.className="btn"+(b.ghost?" ghost":""); el.textContent=b.label;
         el.onclick=()=>{ scrim.classList.remove("show"); res(b.value); };
         row.appendChild(el);
@@ -214,30 +220,32 @@
 
   // ---------- slides ----------
   function intro(){
+    const I = T.intro;
     const el = slide('<img class="hero" src="media/mascot.png" alt="Mascot girl holding a ladle">'+
-      '<div class="kicker">A study on home cooking</div><h1></h1><p class="body"></p><div class="spacer"></div>'+
-      '<div class="row"><button class="btn" id="go">Let\'s start</button></div>', false);
-    $("h1",el).textContent=C.intro.title; $(".body",el).textContent=C.intro.body;
+      '<div class="kicker">'+esc(I.kicker)+'</div><h1></h1><p class="body"></p><div class="spacer"></div>'+
+      '<div class="row"><button class="btn" id="go">'+esc(I.start)+'</button></div>', false);
+    $("h1",el).textContent=I.title; $(".body",el).innerHTML=I.body;
     $("#go",el).onclick=next;
   }
 
   function consent(){
-    const el = slide('<div class="kicker">Consent</div><h2></h2><ul class="consent"></ul>'+
+    const K = T.consent;
+    const el = slide('<div class="kicker">'+esc(K.kicker)+'</div><h2></h2><ul class="consent"></ul>'+
       '<label class="check"><input type="checkbox" id="agree"><span></span></label><div class="spacer"></div>'+
-      '<div class="row"><button class="btn" id="go" disabled>I agree, continue</button></div>');
-    $("h2",el).textContent=C.consent.title;
-    const ul=$("ul",el); C.consent.points.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); });
-    $("label span",el).textContent=C.consent.checkboxLabel;
+      '<div class="row"><button class="btn" id="go" disabled>'+esc(K.continueBtn)+'</button></div>');
+    $("h2",el).textContent=K.title;
+    const ul=$("ul",el); K.points.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); });
+    $("label span",el).textContent=K.checkbox;
     const go=$("#go",el), cb=$("#agree",el);
     cb.onchange=()=>{ go.disabled=!cb.checked; };
     go.onclick=async ()=>{
       go.disabled=true;
-      await popup({title:"Microphone check // ఆడియో పరిశీలన​", text:"Your phone will now ask to use the microphone. Please tap <b>Allow</b>, we need it to record your answers. <br> మీ ఫోన్ ఇప్పుడు ఆడియో రికార్డింగ్ చెయ్యడానికి అనుమతి అడుగుతుంది. <b>Allow</b> అనే బటన్ నొక్కండి."});
+      await popup(K.micCheck);
       try{
         const st = await navigator.mediaDevices.getUserMedia({audio:true});
         st.getTracks().forEach(t=>t.stop());
       }catch(e){
-        await popup({title:"Microphone blocked // ఆడియో బ్లాక్ అయింది", text:"We couldn't use the microphone. Please allow microphone access for this site in your browser settings, then reload this page. (On iPhone, please use Safari.) <br> మేము ఆడియో తీసుకోలేకపోయాము. దయచేసి మీ బ్రౌజర్ సెట్టింగ్‌లలో ఈ సైట్ కోసం మైక్రోఫోన్ యాక్సెస్‌ను అనుమతించి, ఆ తర్వాత ఈ పేజీని రీలోడ్ చేయండి. (ఐఫోన్‌లో అయితే, దయచేసి సఫారీని ఉపయోగించండి.)"});
+        await popup(K.micBlocked);
         go.disabled=false; return;
       }
       if(!S.startSent){ post({kind:"start", rid:S.rid, lang, ua:navigator.userAgent}).then(()=>{S.startSent=true;save();}).catch(()=>{}); }
@@ -246,30 +254,31 @@
   }
 
   function video(){
-    const el = slide('<div class="kicker">Watch // చూడండి</div><h2> Please see this short video <br> ఈ చిన్న వంట వీడియో చూడండీ</h2>'+
+    const V = T.video;
+    const el = slide('<div class="kicker">'+esc(V.kicker)+'</div><h2>'+V.heading+'</h2>'+
       '<video id="v" playsinline controls preload="metadata"></video>'+
-      '<p class="muted" id="vs">Watch till the end to continue. (Credits: Vismai Foods) <br> ముందుకెళ్డానికి వీడియో చివరి వరకూ చూడండి. ()</p><div class="spacer"></div>'+
-      '<div class="row"><button class="btn" id="go" disabled>Next</button></div>');
+      '<p class="muted" id="vs">'+V.hint+'</p><div class="spacer"></div>'+
+      '<div class="row"><button class="btn" id="go" disabled>'+esc(V.next)+'</button></div>');
     const v=$("#v",el); v.src=C.video;
-    v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent="Done! Tap Next. // వీడియో పూర్తయ్యింది. 'Next' నొక్కండి."; S.videoDone=true; save(); };
-    v.onerror=()=>{ $("#vs",el).textContent="The video didn't load. Check your connection and reload the page."; };
-    if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent="You've watched it. Tap Next."; }
+    v.onended=()=>{ $("#go",el).disabled=false; $("#vs",el).textContent=V.ended; S.videoDone=true; save(); };
+    v.onerror=()=>{ $("#vs",el).textContent=V.loadError; };
+    if (S.videoDone){ $("#go",el).disabled=false; $("#vs",el).textContent=V.watched; }
     $("#go",el).onclick=next;
-    popup({title:"Watch the video <br> వీడియో చూడండి", text:"Tap ▶ and watch the whole video. There is no talking in it. Just watch what is being cooked. <br> ▶ నొక్కీ వీడియో చివరివరకూ చూడండి. ఈ వీడియోలో ఎవరూ మాటలాడరు. ఇందులో ఏమిటి వండుతున్నారో చూడండి."});
+    popup(V.popup);
   }
 
   function question(i){
-    const q = QS[i];
-    const el = slide('<div class="kicker">Question '+(i+1)+' of '+QS.length+'</div>'+
+    const q = QS[i], Q = T.question;
+    const el = slide('<div class="kicker">'+esc(Q.kicker(i+1, QS.length))+'</div>'+
       '<div class="stage">'+
         '<div class="action"><button class="round listen" id="listen" aria-label="Listen to the question">'+ICON.speaker+'</button>'+
-        '<div class="label">1 · Listen</div><div class="sub" id="ls"></div></div>'+
+        '<div class="label">'+esc(Q.listenLabel)+'</div><div class="sub" id="ls"></div></div>'+
         '<div class="divider"></div>'+
         '<div class="action"><button class="round mic" id="mic" aria-label="Record your answer" disabled>'+ICON.mic+'</button>'+
-        '<div class="label">2 · Answer</div><div class="sub" id="ms">Listen to the question first</div><div class="timer" id="timer"></div></div>'+
+        '<div class="label">'+esc(Q.answerLabel)+'</div><div class="sub" id="ms">'+esc(Q.listenFirst)+'</div><div class="timer" id="timer"></div></div>'+
         '<div class="status" id="st"></div>'+
       '</div><div class="spacer"></div>'+
-      '<div class="row"><button class="btn ghost" id="retry" style="display:none">Retry sending</button><button class="btn" id="go" disabled>Next question</button></div>');
+      '<div class="row"><button class="btn ghost" id="retry" style="display:none">'+esc(Q.retry)+'</button><button class="btn" id="go" disabled>'+esc(Q.next)+'</button></div>');
 
     const listen=$("#listen",el), mic=$("#mic",el), ls=$("#ls",el), ms=$("#ms",el), st=$("#st",el), timer=$("#timer",el), go=$("#go",el), retry=$("#retry",el);
     const max = C.maxListens || 1;
@@ -279,31 +288,31 @@
 
     function refreshListen(){
       const left = max - used;
-      if (left <= 0){ listen.disabled=true; ls.textContent = "Heard ✓ // వినబడింది ✓"; }
-      else ls.textContent = max===1 ? "You can hear this once" : ("You can hear this "+left+" more time"+(left>1?"s":""));
+      if (left <= 0){ listen.disabled=true; ls.textContent = Q.heard; }
+      else ls.textContent = Q.canHear(left, max);
     }
     function refreshMic(){
-      if (S.done[q.id]) { mic.disabled=true; mic.classList.add("saved"); mic.innerHTML=ICON.check; ms.textContent="Answer saved"; go.disabled=false; return; }
-      mic.disabled = !heard; if(heard) ms.textContent="Tap to start recording";
+      if (S.done[q.id]) { mic.disabled=true; mic.classList.add("saved"); mic.innerHTML=ICON.check; ms.textContent=Q.saved; go.disabled=false; return; }
+      mic.disabled = !heard; if(heard) ms.textContent=Q.tapToRecord;
     }
     refreshListen(); refreshMic();
-    if (S.done[q.id]) { st.className="status ok"; st.textContent="Your answer was sent ✓"; }
+    if (S.done[q.id]) { st.className="status ok"; st.textContent=Q.sent; }
 
     if (!S.firstQSeen){
-      popup({title:"How this works // కొన్ని సూచనలు", text:"<b>Step 1:</b> tap the green speaker 🔊 to hear the question. You can hear it upto "+(max===1?"once":max+" times")+" <br> ప్రశ్నను వినడానికి ఆకుపచ్చ రంగు స్పీకర్ 🔊 పై నొక్కండి. మీరు దీన్ని  "+(max===1?"ఒక్కసారి":max+" సార్లు")+" వినవచ్చు.<br><br><b>Step 2:</b> tap the red microphone 🎙 and answer out loud. Tap it again when you're done. <br> ఎరుపు రంగు మైక్రోఫోన్ 🎙 గుర్తుపై నొక్కీ సమాధానం చెప్పండి. చెప్పడం పూర్తయ్యాక మళ్లీ దానిపై నొక్కండి."})
+      popup({title:Q.howItWorks.title, text:Q.howItWorks.text(max)})
         .then(()=>{ S.firstQSeen=true; save(); });
     }
 
     listen.onclick=()=>{
       if (used>=max || busy) return;
       const a = new Audio(q.audio);
-      listen.disabled=true; ls.innerHTML='Playing<span class="bars"><i></i><i></i><i></i></span>';
+      listen.disabled=true; ls.innerHTML=esc(Q.playing)+'<span class="bars"><i></i><i></i><i></i></span>';
       a.onended=()=>{
         used++; S.listens[q.id]=used; heard=true; save();
         listen.disabled = used>=max; refreshListen(); refreshMic();
       };
-      a.onerror=()=>{ listen.disabled=false; ls.textContent="Couldn't load the question. Check your internet and tap again. // ప్రశ్న చూబించలేకపోయాము. మీ ఇంటర్నెట్ కనెక్షన్ చూసుకోండి."; };
-      a.play().catch(()=>{ listen.disabled=false; ls.textContent="Tap again to play."; });
+      a.onerror=()=>{ listen.disabled=false; ls.textContent=Q.loadError; };
+      a.play().catch(()=>{ listen.disabled=false; ls.textContent=Q.tapAgain; });
     };
 
     function pickMime(){
@@ -316,9 +325,9 @@
 
     async function startRec(){
       const mime = pickMime();
-      if (mime===null){ await popup({title:"Recording not supported // రికార్డింగ్ చెయ్యడమవ్వదు", text:"This browser can't record audio. Please open the link in Chrome (Android) or Safari (iPhone). <br> ఈ బ్రౌజర్ లో రికార్డింగ్ అవ్వదు. దయచేసి క్రోమ్ (Android) లో లెదా సఫారీ (iPhone) లో దీన్ని తెరవండి."}); return; }
+      if (mime===null){ await popup(Q.notSupported); return; }
       try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}); }
-      catch(e){ await popup({title:"Microphone blocked // మైక్ బ్లాక్ అయింది", text:"Please allow microphone access for this site, then tap the microphone again. <br> మైక్ వాడటానికి అనుమతించండి. ఆ పై మళ్లా మైక్ బటన్ నొక్కండి."}); return; }
+      catch(e){ await popup(Q.micBlocked); return; }
       chunks=[];
       try{ rec = mime ? new MediaRecorder(stream,{mimeType:mime, audioBitsPerSecond:48000}) : new MediaRecorder(stream); }
       catch(e){ rec = new MediaRecorder(stream); }
@@ -326,15 +335,16 @@
       rec.onstop = onStopped;
       rec.start(1000);
       busy=true; t0=Date.now();
-      mic.classList.add("rec"); mic.innerHTML=ICON.stop; ms.textContent="Recording… tap to finish // రికార్డింగ్ జరుగుతున్నాది... పూర్తయ్యాకా ఆపడానికి నొక్కండి"; listen.disabled=true;
+      mic.classList.add("rec"); mic.innerHTML=ICON.stop; ms.textContent=Q.recording; listen.disabled=true;
       timer.textContent="0:00";
       tick=setInterval(()=>{ timer.textContent=fmt((Date.now()-t0)/1000); },500);
       autoStop=setTimeout(()=>{ if(rec && rec.state==="recording") rec.stop(); }, (C.maxRecordSeconds||360)*1000);
     }
 
     async function askStop(){
-      const ok = await popup({title:"Finished answering? // మీరు సమాధానం పూర్తిగా ఇచ్చారా?", text:"You can't record this answer again, so take your time if you have more to say. <br> మీ సమాధానాన్ని మీరు మళ్లా రికార్డు చేసుకోలేరు. అందుకే ఇంకా ఏమైనా చెప్తారంటే మీరు ఇప్పుడు వెనక్కి వెళ్లీ చెప్పగలరు." ,
-        buttons:[{label:"talk // చెప్పాలి", value:false, ghost:true},{label:"done // అయింది", value:true}]});
+      const F = Q.finish;
+      const ok = await popup({title:F.title, text:F.text,
+        buttons:[{label:F.keep, value:false, ghost:true},{label:F.done, value:true}]});
       if (ok && rec && rec.state==="recording") rec.stop();
     }
 
@@ -345,25 +355,25 @@
       pendingMime = (rec && rec.mimeType) || (chunks[0] && chunks[0].type) || "audio/webm";
       pendingBlob = new Blob(chunks, {type: pendingMime});
       pendingBlob._secs = secs;
-      mic.classList.remove("rec"); mic.innerHTML=ICON.check; mic.disabled=true; ms.textContent="Recorded ("+fmt(secs)+")"; timer.textContent="";
+      mic.classList.remove("rec"); mic.innerHTML=ICON.check; mic.disabled=true; ms.textContent=Q.recorded+" ("+fmt(secs)+")"; timer.textContent="";
       send();
     }
 
     async function send(){
       retry.style.display="none";
-      st.className="status"; st.innerHTML='Sending your answer // మీ సమాధానం చేరుతున్నాది <span class="bars"><i></i><i></i><i></i></span>';
+      st.className="status"; st.innerHTML=esc(Q.sending)+' <span class="bars"><i></i><i></i><i></i></span>';
       busy=true;
       try{
         const b64 = await blobToBase64(pendingBlob);
         const ext = /mp4|aac|m4a/.test(pendingMime) ? "m4a" : /ogg/.test(pendingMime) ? "ogg" : "webm";
-        const res = await post({kind:"audio", rid:S.rid, lang, qid:q.id, qindex:i+1, mimeType:pendingMime.split(";")[0], ext,
+        await post({kind:"audio", rid:S.rid, lang, qid:q.id, qindex:i+1, mimeType:pendingMime.split(";")[0], ext,
           durationSec:pendingBlob._secs, sizeBytes:pendingBlob.size, audio:b64});
         S.done[q.id]=true; save(); busy=false; mic.classList.add("saved");
-        st.className="status ok"; st.textContent = "Your answer was sent ✓";
+        st.className="status ok"; st.textContent = Q.sent;
         go.disabled=false;
       }catch(e){
         busy=true; // keep the warning on leave: answer not yet saved
-        st.className="status err"; st.textContent="Couldn't send — check your internet, then tap Retry.";
+        st.className="status err"; st.textContent=Q.sendError;
         retry.style.display="inline-block";
       }
     }
@@ -377,33 +387,37 @@
   }
 
   function details(){
-    const el = slide('<div class="kicker">Almost done // చివరికి</div><h2>A little about you // మీ గురించి కొన్ని వివరాలు</h2>'+
-      '<p class="muted">This helps us study answers. No names, please. <br> ఇవి వేరే సమాధానాలను అర్ధం చేసుకోడంలో మాకు సహాయబడతాయి. మీ పేరు ఎక్కడా రాయకండి.</p>'+
+    const D = T.details;
+    const opts = list => '<option value="">'+esc(T.choose)+'</option>' +
+      list.map(([value,label])=>'<option value="'+esc(value)+'">'+esc(label)+'</option>').join("");
+    const el = slide('<div class="kicker">'+esc(D.kicker)+'</div><h2>'+esc(D.heading)+'</h2>'+
+      '<p class="muted">'+D.note+'</p>'+
       '<form class="details" id="f">'+
-        '<label>Age // వయస్సు<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
-        '<label>Gender // లింగం<select name="gender" required><option value="">Choose…</option><option>Female // మహిళ​</option><option>Man // పురుషుడు</option></select></label>'+
-        '<label>Mother tongue // మాతృభాష​<input name="mother_tongue" required></label>'+
-        '<label>Other languages you understand? // మీకు యే యే వేరే భాషలు అర్ధమవుతాయి? <input name="other_languages"</label>'+
-        '<label>Where did you grow up? // మీరు ఎక్కడ పెరిగారు? <span class="opt">(city / town, state)</span><input name="grew_up" required></label>'+
-        '<label>Where do you live now? // ఇప్పుడు ఎక్కడ ఉంటున్నారు?<input name="lives_now" required></label>'+
-        '<label>Since how long have you been able to cook regularly? // ఎప్పటి నుంచీ మీరు వంట వండగలుగుతున్నారు? <select name="cooking_years" required><option value="">Choose…</option><option>Less than 1 year // ఒక ఏడాది లోపల​</option><option>1–5 years // కిందటి 1-5 ఏళ్ల​ లోపల​</option><option>5–15 years // కిందటి 5-15 ఏళ్ల​ లోపల​ </option><option>More than 15 years // కిందటి 15 ఏళ్ల పైన</option><option>I don\'t cook regularly // నాకు వండే అలవాటు లేదు</option></select></label>'+
+        '<label>'+esc(D.age)+'<input name="age" type="number" inputmode="numeric" min="18" max="100" required></label>'+
+        '<label>'+esc(D.gender)+'<select name="gender" required>'+opts(D.genderOptions)+'</select></label>'+
+        '<label>'+esc(D.motherTongue)+'<input name="mother_tongue" required></label>'+
+        '<label>'+esc(D.otherLanguages)+'<input name="other_languages"></label>'+
+        '<label>'+esc(D.grewUp)+' <span class="opt">'+esc(D.grewUpHint)+'</span><input name="grew_up" required></label>'+
+        '<label>'+esc(D.livesNow)+'<input name="lives_now" required></label>'+
+        '<label>'+esc(D.cooking)+'<select name="cooking_years" required>'+opts(D.cookingOptions)+'</select></label>'+
         '<div class="status" id="st"></div>'+
-        '<div class="row"><button class="btn" id="go" type="submit">Submit // సమాధానాలు పంపించండి</button></div>'+
+        '<div class="row"><button class="btn" id="go" type="submit">'+esc(D.submit)+'</button></div>'+
       '</form>');
     const f=$("#f",el), st=$("#st",el), go=$("#go",el);
     f.onsubmit=async e=>{
       e.preventDefault();
       const data = Object.fromEntries(new FormData(f).entries());
-      go.disabled=true; st.className="status"; st.textContent="Sending…";
+      go.disabled=true; st.className="status"; st.textContent=D.sending;
       try{ await post({kind:"details", rid:S.rid, lang, ...data}); S.finished=true; save(); next(); }
-      catch(err){ go.disabled=false; st.className="status err"; st.textContent="Couldn't send — check your internet and tap Submit again. // మీ కనెక్షన్ చూసుకునీ మళ్లా పంపించడానికి ప్రయత్నించండి."; }
+      catch(err){ go.disabled=false; st.className="status err"; st.textContent=D.sendError; }
     };
   }
 
   function thanks(){
-    slide('<img class="hero" src="media/mascot.png" alt=""><h1 style="text-align:center">Thank you! // ధన్యవాదములు!</h1>'+
-      '<p style="text-align:center">Your answers have been saved. You can close this page now. // మీరు ఈ పేజీ ని ఇప్పుడు ముయ్యగలరు.</p>'+
-      '<p class="muted" style="text-align:center">Your response ID // మీ సమాధానానికి ఐ. డీ.: <b>'+S.rid+'</b></p>', false);
+    const H = T.thanks;
+    slide('<img class="hero" src="media/mascot.png" alt=""><h1 style="text-align:center">'+esc(H.title)+'</h1>'+
+      '<p style="text-align:center">'+esc(H.body)+'</p>'+
+      '<p class="muted" style="text-align:center">'+esc(H.idLabel)+' <b>'+esc(S.rid)+'</b></p>', false);
   }
 
   render();

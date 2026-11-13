@@ -79,8 +79,9 @@ function doPost(e) {
     else if (d.kind === "details") {
       const row = findOrCreateRow_(ss, rid, lang);
       const sh = ss.getSheetByName("Respondents");
-      sh.getRange(row, 4, 1, 9).setValues([[new Date(), d.age, d.gender, d.mother_tongue, d.other_languages,
-        d.grew_up, d.lives_now, d.school_medium, d.cooking_years]]);
+      const v = k => (d[k] === undefined || d[k] === null ? "" : d[k]);
+      sh.getRange(row, 4, 1, 9).setValues([[new Date(), v("age"), v("gender"), v("mother_tongue"), v("other_languages"),
+        v("grew_up"), v("lives_now"), v("school_medium"), v("cooking_years")]]);
     }
     else {
       throw new Error("Unknown kind");

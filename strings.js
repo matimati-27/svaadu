@@ -148,13 +148,13 @@ window.STUDY_STRINGS = {
 
     intro: {
       kicker: "A study on home cooking",                                    // (EN only)
-      title: "Namaste! Let's talk food. // नमस्ते! चलिए, खाने की बातें करते हैं।",
+      title: "Namaste! Let's talk food. // नमस्ते! चलिए, खाने की बातें करें।",
       body: /* [html] */
         "This is a study at IIIT Hyderabad about home cooking and food habits in Indian households. " +
         "This takes about 10–15 minutes. You will watch a short cooking video and then answer a few questions " +
         "by speaking — just like a conversation. There are no right or wrong answers." +
         "<br><br>" +
-        "यह खान-पान के तौर-तरीक़ों पर एक अध्ययन है। इस सर्वे के सभी सवालों के जवाब देने में कुल 10–15 मिनट लगेंगे।",
+        "यह खान-पान पर एक अध्ययन है। इस सर्वे के सभी सवालों के जवाब देने में कुल 10–15 मिनट लगेंगे। सहजता से उत्तर दें, यहाँ कुछ सही या ग़लत नहीं है। मन खोल के बोलिए।",
       start: "Let's start"                                                  // (EN only)
     },
 
@@ -182,7 +182,7 @@ window.STUDY_STRINGS = {
     video: {
       kicker: "Watch // देखिए",
       heading: /* [html] */ "Please see this short video <br> यह छोटा-सा खाना बनाने का वीडियो देखिए",
-      hint: /* [html] */ "Watch till the end to continue. (Credits: [CHANNEL NAME]) <br> आगे बढ़ने के लिए वीडियो आख़िर तक देखिए। (सौजन्य: [CHANNEL NAME])",
+      hint: /* [html] */ "Watch till the end to continue. (Credits: Tasty Treasure) <br> आगे बढ़ने के लिए वीडियो आख़िर तक देखिए। (सौजन्य: Tasty Treasure)",
       ended: "Done! Tap Next. // वीडियो पूरा हो गया। 'Next' दबाइए।",
       watched: "You've watched it. Tap Next.",                              // (EN only)
       loadError: "The video didn't load. Check your connection and reload the page.", // (EN only)
@@ -238,17 +238,17 @@ window.STUDY_STRINGS = {
     },
 
     details: {
-      kicker: "Almost done // बस आख़िरी हिस्सा",
+      kicker: "Almost done // बस हो ही गया अब",
       heading: "A little about you // आपके बारे में कुछ जानकारी",
-      note: /* [html] */ "This helps us study answers. No names, please. <br> इससे हमें जवाबों को समझने में मदद मिलती है। अपना नाम कहीं मत लिखिए।",
+      note: /* [html] */ "This helps us study answers. No names, please. <br> इससे हमें जवाबों को समझने में मदद मिलती है। अपना नाम लिखना आवश्यक नहीं है।",
       age: "Age // उम्र",
       gender: "Gender // लिंग",
       genderOptions: [["Woman", "Female // महिला"], ["Man", "Man // पुरुष"]],
       motherTongue: "Mother tongue // मातृभाषा",
-      otherLanguages: "Other languages you understand? // आपको और कौन-कौन सी भाषाएँ समझ आती हैं?",
+      otherLanguages: "Other languages you understand? // आपको और कौन-कौन सी भाषाएँ आती हैं?",
       grewUp: "Where did you grow up? // आपका बचपन कहाँ बीता?",
       grewUpHint: "(city / town, state)",                                   // (EN only)
-      livesNow: "Where do you live now? // आजकल आपका घर कहाँ है?",
+      livesNow: "Where do you live now? // आजकल आपका कहाँ रहते है?",
       cooking: "Since how long have you been able to cook regularly? // आपको नियमित रूप से खाना बनाते हुए कितना समय हुआ है?",
       cookingOptions: [
         ["Less than 1 year",       "Less than 1 year // एक साल से कम"],
@@ -257,7 +257,7 @@ window.STUDY_STRINGS = {
         ["More than 15 years",     "More than 15 years // 15 साल से ज़्यादा"],
         ["Doesn't cook regularly", "I don't cook regularly // मुझे खाना बनाने की आदत नहीं है"]
       ],
-      submit: "Submit // जवाब भेजिए",
+      submit: "Submit // जवाब जमा करें",
       sending: "Sending…",                                                  // (EN only)
       sendError: "Couldn't send — check your internet and tap Submit again. // अपना कनेक्शन देखिए और फिर से भेजने की कोशिश कीजिए।"
     },
